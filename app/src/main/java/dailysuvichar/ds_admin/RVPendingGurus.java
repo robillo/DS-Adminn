@@ -18,6 +18,10 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
     ArrayList<Guru> gurus;
     Context context;
 
+    public RVPendingGurus(Context context, ArrayList<Guru> list){
+        this.gurus=list;
+        this.context=context;
+    }
     @Override
     public PendingGuruVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_guru, parent, false);
@@ -37,6 +41,6 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return gurus.size();
     }
 }
