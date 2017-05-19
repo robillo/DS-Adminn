@@ -34,11 +34,13 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                holder.dob.setText(gurus.get(position).getDOB());
-                holder.age.setText(gurus.get(position).getAge());
-                holder.name.setText(gurus.get(position).getName());
-                holder.email.setText(gurus.get(position).getEmail());
-                holder.uid.setText(gurus.get(position).getUid());
+                holder.dob.setText("DOB: " +gurus.get(position).getDOB());
+                holder.age.setText("AGE: "+String.valueOf(gurus.get(position).getAge()));
+                holder.name.setText("NAME: "+gurus.get(position).getName());
+                holder.email.setText("EMAIL: "+gurus.get(position).getEmail());
+                holder.uid.setText("UID: " +gurus.get(position).getUid());
+                holder.setGOV(context, gurus.get(position).getImgGov());
+                holder.setSpec(context, gurus.get(position).getImgSpec());
 
             }
         });

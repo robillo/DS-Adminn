@@ -1,10 +1,16 @@
 package dailysuvichar.ds_admin;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 
 
 /**
@@ -26,5 +32,26 @@ class PendingGuruVH extends RecyclerView.ViewHolder {
         accept = (Button) itemView.findViewById(R.id.accept);
         imgGOV= (ImageView) itemView.findViewById(R.id.imgGov);
         imgSPEC= (ImageView) itemView.findViewById(R.id.imgSpec);
+    }
+
+    public void setGOV(Context ctx, StorageReference storageReference){
+        if(storageReference!=null) {
+            Glide.with(ctx).
+                    using(new FirebaseImageLoader())
+                    .load(storageReference)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imgGOV);
+        }
+    }
+    public void setSpec(Context ctx, StorageReference storageReference){
+        if(storageReference!=null) {
+            Glide.with(ctx).
+                    using(new FirebaseImageLoader())
+                    .load(storageReference)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imgSPEC);
+        }
     }
 }

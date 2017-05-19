@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private StorageReference mStorageReferenceGovid, mStorageReferenceSpecid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +47,25 @@ public class MainActivity extends AppCompatActivity
         gurus = new ArrayList<>();
 
         rv= (RecyclerView) findViewById(R.id.rv);
+        mStorageReferenceGovid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("govid");
+        mStorageReferenceSpecid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("specid");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("gurus");
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+//        mStorageReferenceGovid =
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         Log.d(TAG, "onCreate: "+mDatabase);
 
         mDatabase.child("pending").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: ANDJBDAJKBDAKFKA");
                 Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Guru guru = postSnapshot.getValue(Guru.class);
+                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
+                    guru.setImgSpec(mStorageReferenceGovid.child(guru.getUid()));
                     Log.d(TAG, "onDataChange: "+guru.getName());
                     gurus.add(guru);
 
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-//                Log.d(TAG, "onCancelled: " + databaseError.getMessage());
+                Log.d(TAG, "onCancelled: " + databaseError.getMessage());
             }
         });
 

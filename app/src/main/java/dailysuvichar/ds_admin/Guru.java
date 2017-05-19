@@ -1,5 +1,7 @@
 package dailysuvichar.ds_admin;
 
+import com.google.firebase.storage.StorageReference;
+
 /**
  * Created by rishabhshukla on 20/05/17.
  */
@@ -18,6 +20,23 @@ public class Guru {
     private int age;
     private int followersCount;
     private String specialization, govDB, specDB;
+    private StorageReference imgGov, imgSpec;
+
+    public StorageReference getImgGov() {
+        return imgGov;
+    }
+
+    public void setImgGov(StorageReference imgGov) {
+        this.imgGov = imgGov;
+    }
+
+    public StorageReference getImgSpec() {
+        return imgSpec;
+    }
+
+    public void setImgSpec(StorageReference imgSpec) {
+        this.imgSpec = imgSpec;
+    }
 
     public Guru(){
 
