@@ -30,10 +30,15 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
     }
 
     @Override
-    public void onBindViewHolder(PendingGuruVH holder, int position) {
+    public void onBindViewHolder(final PendingGuruVH holder, final int position) {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
+                holder.dob.setText(gurus.get(position).getDOB());
+                holder.age.setText(gurus.get(position).getAge());
+                holder.name.setText(gurus.get(position).getName());
+                holder.email.setText(gurus.get(position).getEmail());
+                holder.uid.setText(gurus.get(position).getUid());
 
             }
         });

@@ -1,23 +1,39 @@
 package dailysuvichar.ds_admin;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MA";
     RecyclerView rv;
+    RVPendingGurus rvPendingGurus;
+    ArrayList<Guru> gurus;
+
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +41,40 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        gurus = new ArrayList<>();
 
         rv= (RecyclerView) findViewById(R.id.rv);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("gurus");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        Log.d(TAG, "onCreate: "+mDatabase);
+
+        mDatabase.child("pending").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Guru guru = postSnapshot.getValue(Guru.class);
+                    Log.d(TAG, "onDataChange: "+guru.getName());
+                    gurus.add(guru);
+
+                    rvPendingGurus.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+//                Log.d(TAG, "onCancelled: " + databaseError.getMessage());
             }
         });
 
+        rvPendingGurus = new RVPendingGurus(this, gurus);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(rvPendingGurus);
+        rvPendingGurus.notifyDataSetChanged();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
