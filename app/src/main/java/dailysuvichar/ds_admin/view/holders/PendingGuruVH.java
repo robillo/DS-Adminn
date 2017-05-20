@@ -1,6 +1,7 @@
 package dailysuvichar.ds_admin.view.holders;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,8 @@ import dailysuvichar.ds_admin.R;
 public class PendingGuruVH extends RecyclerView.ViewHolder {
 
     public TextView name,email,uid,dob,age;
-    public Button reject, accept;
-    public ImageView imgGOV, imgSPEC;
+    public CardView cardView;
+    private ImageView imgGOV, imgSPEC;
 
     public PendingGuruVH(View itemView) {
         super(itemView);
@@ -28,8 +29,7 @@ public class PendingGuruVH extends RecyclerView.ViewHolder {
         uid = (TextView) itemView.findViewById(R.id.uid);
         dob = (TextView) itemView.findViewById(R.id.dob);
         age = (TextView) itemView.findViewById(R.id.age);
-        reject = (Button) itemView.findViewById(R.id.reject);
-        accept = (Button) itemView.findViewById(R.id.accept);
+        cardView = (CardView) itemView.findViewById(R.id.cardView);
         imgGOV= (ImageView) itemView.findViewById(R.id.imgGov);
         imgSPEC= (ImageView) itemView.findViewById(R.id.imgSpec);
     }

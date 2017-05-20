@@ -2,8 +2,10 @@ package dailysuvichar.ds_admin.view.adapters;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,7 +18,8 @@ import dailysuvichar.ds_admin.view.holders.PendingGuruVH;
 public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
 
     ArrayList<Guru> gurus;
-    Context context;
+    Context context, pContext;
+    private int mPosition;
 
     public RVPendingGurus(Context context, ArrayList<Guru> list){
         this.gurus=list;
@@ -25,30 +28,63 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
     @Override
     public PendingGuruVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_guru, parent, false);
-        context = parent.getContext();
+        pContext = parent.getContext();
         return new PendingGuruVH(view);
     }
 
     @Override
     public void onBindViewHolder(final PendingGuruVH holder, final int position) {
+        mPosition = position;
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                String sDob = "DOB: " +gurus.get(position).getDOB(),
-                        sAge = "AGE: "+String.valueOf(gurus.get(position).getAge()),
-                        sName = "NAME: "+gurus.get(position).getName(),
-                        sEmail = "EMAIL: "+gurus.get(position).getEmail(),
-                        sUid = "UID: " +gurus.get(position).getUid();
+                String sDob = "DOB: " +gurus.get(mPosition).getDOB(),
+                        sAge = "AGE: "+String.valueOf(gurus.get(mPosition).getAge()),
+                        sName = "NAME: "+gurus.get(mPosition).getName(),
+                        sEmail = "EMAIL: "+gurus.get(mPosition).getEmail(),
+                        sUid = "UID: " +gurus.get(mPosition).getUid();
                 holder.dob.setText(sDob);
                 holder.age.setText(sAge);
                 holder.name.setText(sName);
                 holder.email.setText(sEmail);
                 holder.uid.setText(sUid);
-                holder.setGOV(context, gurus.get(position).getImgGov());
-                holder.setSpec(context, gurus.get(position).getImgSpec());
+                holder.setGOV(context, gurus.get(mPosition).getImgGov());
+                holder.setSpec(context, gurus.get(mPosition).getImgSpec());
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        PopupMenu popup = new PopupMenu(pContext, holder.cardView);
+                        //inflating menu from xml resource
+                        popup.inflate(R.menu.card_menu);
+                        //adding click listener
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.accept:{
 
+                                        break;
+                                    }
+                                    case R.id.reject:{
+
+                                        break;
+                                    }
+                                }
+                                return false;
+                            }
+                        });
+                        //displaying the popup
+                        popup.show();
+                        setPosition(holder.getAdapterPosition());
+                        return false;
+                    }
+                });
             }
         });
+    }
+
+    private void setPosition(int position) {
+        this.mPosition = position;
     }
 
     @Override
