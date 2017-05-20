@@ -1,4 +1,4 @@
-package dailysuvichar.ds_admin;
+package dailysuvichar.ds_admin.view.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -24,6 +24,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import dailysuvichar.ds_admin.R;
+import dailysuvichar.ds_admin.model.Guru;
+import dailysuvichar.ds_admin.view.adapters.RVPendingGurus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

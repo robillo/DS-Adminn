@@ -1,4 +1,4 @@
-package dailysuvichar.ds_admin;
+package dailysuvichar.ds_admin.model;
 
 import com.google.firebase.storage.StorageReference;
 

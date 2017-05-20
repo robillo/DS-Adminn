@@ -1,4 +1,4 @@
-package dailysuvichar.ds_admin;
+package dailysuvichar.ds_admin.view.holders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +13,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
+import dailysuvichar.ds_admin.R;
 
-/**
- * Created by rishabhshukla on 20/05/17.
- */
+public class PendingGuruVH extends RecyclerView.ViewHolder {
 
-class PendingGuruVH extends RecyclerView.ViewHolder {
-    TextView name,email,uid,dob,age;
-    Button reject, accept;
-    ImageView imgGOV, imgSPEC;
+    public TextView name,email,uid,dob,age;
+    public Button reject, accept;
+    public ImageView imgGOV, imgSPEC;
+
     public PendingGuruVH(View itemView) {
         super(itemView);
         name = (TextView) itemView.findViewById(R.id.name);

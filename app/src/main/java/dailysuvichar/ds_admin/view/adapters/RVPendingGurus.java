@@ -1,4 +1,4 @@
-package dailysuvichar.ds_admin;
+package dailysuvichar.ds_admin.view.adapters;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-/**
- * Created by rishabhshukla on 20/05/17.
- */
+import dailysuvichar.ds_admin.R;
+import dailysuvichar.ds_admin.model.Guru;
+import dailysuvichar.ds_admin.view.holders.PendingGuruVH;
 
 public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
 
