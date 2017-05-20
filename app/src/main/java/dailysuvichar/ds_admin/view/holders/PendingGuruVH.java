@@ -53,7 +53,7 @@ public class PendingGuruVH extends RecyclerView.ViewHolder {
     }
     public void setSpec(Context ctx, StorageReference storageReference){
         if(storageReference!=null) {
-            this.storageReference1 = storageReference;
+            this.storageReference2 = storageReference;
             Log.e("sfae",storageReference.toString());
             Glide.with(ctx).
                     using(new FirebaseImageLoader())
@@ -64,10 +64,14 @@ public class PendingGuruVH extends RecyclerView.ViewHolder {
         }
     }
 
-    public void fullScreenIntent(){
+    public void fullScreenIntent(int pos){
         Intent i = new Intent(context, FullScreenActivity.class);
-        i.putExtra("path", storageReference1.toString());
-        i.putExtra("path", storageReference2.toString());
+        if(pos == 1){
+            i.putExtra("path", storageReference1.toString());
+        }
+        else {
+            i.putExtra("path", storageReference2.toString());
+        }
         Log.e("Storage Reference", storageReference1.toString());
         Log.e("Storage Reference", storageReference2.toString());
         context.startActivity(i);

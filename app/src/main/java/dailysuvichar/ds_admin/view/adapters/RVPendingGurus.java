@@ -51,6 +51,18 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
                 holder.uid.setText(sUid);
                 holder.setGOV(context, gurus.get(mPosition).getImgGov());
                 holder.setSpec(context, gurus.get(mPosition).getImgSpec());
+                holder.imgGOV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.fullScreenIntent(1);
+                    }
+                });
+                holder.imgSPEC.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.fullScreenIntent(2);
+                    }
+                });
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
