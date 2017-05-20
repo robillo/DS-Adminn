@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DS-Admin</string>
+    <string name="app_name">Daily Suvichar Admin App</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

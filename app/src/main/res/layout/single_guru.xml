@@ -3,8 +3,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="3sp"
-    app:cardElevation="3sp"
-    android:layout_margin="5sp"
+    app:cardElevation="7sp"
+    android:layout_margin="7sp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardView">
 

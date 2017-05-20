@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import dailysuvichar.ds_admin.R;
 import dailysuvichar.ds_admin.model.Guru;
 import dailysuvichar.ds_admin.view.holders.PendingGuruVH;
@@ -62,7 +63,38 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.accept:{
-
+                                        new SweetAlertDialog(pContext, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("Accept as Guru?")
+                                                .setContentText("The user will be converted to Guru in the parent app.")
+                                                .setConfirmText("Yes,accept!")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog
+                                                                .setTitleText("Accepted!")
+                                                                .setContentText("This person has been set as a Guru!")
+                                                                .setConfirmText("OK")
+                                                                .showCancelButton(false)
+                                                                .setConfirmClickListener(null)
+                                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                                    }
+                                                })
+                                                .showCancelButton(true)
+                                                .setCancelText("Sorry, No!")
+                                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog
+                                                                .setTitleText("Dismissed!")
+                                                                .setContentText("No Action was taken!")
+                                                                .showCancelButton(false)
+                                                                .setConfirmText("OK")
+                                                                .setCancelClickListener(null)
+                                                                .setConfirmClickListener(null)
+                                                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                                    }
+                                                })
+                                                .show();
                                         break;
                                     }
                                     case R.id.reject:{
