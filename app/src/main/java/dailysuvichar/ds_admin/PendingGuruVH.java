@@ -2,6 +2,7 @@ package dailysuvichar.ds_admin;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ class PendingGuruVH extends RecyclerView.ViewHolder {
 
     public void setGOV(Context ctx, StorageReference storageReference){
         if(storageReference!=null) {
+            Log.e("sfae",storageReference.toString());
             Glide.with(ctx).
                     using(new FirebaseImageLoader())
                     .load(storageReference)
@@ -46,6 +48,8 @@ class PendingGuruVH extends RecyclerView.ViewHolder {
     }
     public void setSpec(Context ctx, StorageReference storageReference){
         if(storageReference!=null) {
+            Log.e("sfae",storageReference.toString());
+
             Glide.with(ctx).
                     using(new FirebaseImageLoader())
                     .load(storageReference)
