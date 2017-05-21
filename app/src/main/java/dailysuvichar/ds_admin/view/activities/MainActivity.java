@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity
         mStorageReferenceSpecid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("specid");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("gurus");
-//        mStorageReferenceGovid =
-//        mFirebaseAuth = FirebaseAuth.getInstance();
-//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         Log.d(TAG, "onCreate: "+mDatabase);
 
