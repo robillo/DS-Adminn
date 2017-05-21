@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import dailysuvichar.ds_admin.R;
 import dailysuvichar.ds_admin.model.Guru;
+import dailysuvichar.ds_admin.view.activities.MainActivity;
 import dailysuvichar.ds_admin.view.holders.PendingGuruVH;
 
 public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
@@ -82,6 +83,7 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
                                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                     @Override
                                                     public void onClick(SweetAlertDialog sDialog) {
+                                                        MainActivity.confirmAsGuru(gurus.get(position),gurus.get(position).getDbRef());
                                                         sDialog
                                                                 .setTitleText("Accepted!")
                                                                 .setContentText("This person has been set as a Guru!")
@@ -110,7 +112,39 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
                                         break;
                                     }
                                     case R.id.reject:{
-
+                                        new SweetAlertDialog(pContext, SweetAlertDialog.WARNING_TYPE)
+                                                .setTitleText("Reject as Guru?")
+                                                .setContentText("The user will be removed from Pending Guru List.")
+                                                .setConfirmText("Confirm!")
+                                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        MainActivity.deleteGuru(gurus.get(position),gurus.get(position).getDbRef());
+                                                        sDialog
+                                                                .setTitleText("Deleted!")
+                                                                .setContentText("This person has been removed!")
+                                                                .setConfirmText("OK")
+                                                                .showCancelButton(false)
+                                                                .setConfirmClickListener(null)
+                                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                                    }
+                                                })
+                                                .showCancelButton(true)
+                                                .setCancelText("Sorry, No!")
+                                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        sDialog
+                                                                .setTitleText("Dismissed!")
+                                                                .setContentText("No Action was taken!")
+                                                                .showCancelButton(false)
+                                                                .setConfirmText("OK")
+                                                                .setCancelClickListener(null)
+                                                                .setConfirmClickListener(null)
+                                                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                                    }
+                                                })
+                                                .show();
                                         break;
                                     }
                                 }

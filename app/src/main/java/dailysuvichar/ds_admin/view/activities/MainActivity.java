@@ -34,10 +34,11 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MA";
     RecyclerView rv;
-    RVPendingGurus rvPendingGurus;
-    ArrayList<Guru> gurus;
+    static RVPendingGurus rvPendingGurus;
+    static ArrayList<Guru> gurus;
 
     private DatabaseReference mDatabase;
+    private static DatabaseReference mDatabaseGuruOfficial;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private StorageReference mStorageReferenceGovid, mStorageReferenceSpecid;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity
                     Guru guru = postSnapshot.getValue(Guru.class);
                     guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
                     guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+                    guru.setDbRef(postSnapshot.getRef());
                     Log.d(TAG, "onDataChange: "+guru.getUid());
                     gurus.add(guru);
 
@@ -129,6 +131,38 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static void deleteGuru(Guru guru, DatabaseReference dbRef){
+        if(dbRef!=null){
+            Log.i(TAG, "deleteSupplier: "+dbRef);
+            dbRef.setValue(null);
+            gurus.remove(guru);
+        }else{
+            Log.i(TAG, "deleteSupplier: dBRef is "+dbRef);
+        }
+        rvPendingGurus.notifyDataSetChanged();
+    }
+
+
+    public static void confirmAsGuru(Guru guru, DatabaseReference dbRef){
+
+        mDatabaseGuruOfficial = FirebaseDatabase.getInstance().getReference("gurus").child("official");
+
+        if(dbRef!=null){
+            Log.i(TAG, "deleteSupplier: "+dbRef);
+            dbRef.setValue(null);
+            gurus.remove(guru);
+
+            String guruId = mDatabaseGuruOfficial.push().getKey();
+
+            mDatabaseGuruOfficial.child(guruId).setValue(guru);
+
+        }else{
+            Log.i(TAG, "deleteSupplier: dBRef is "+dbRef);
+        }
+        rvPendingGurus.notifyDataSetChanged();
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

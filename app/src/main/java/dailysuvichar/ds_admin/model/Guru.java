@@ -1,5 +1,7 @@
 package dailysuvichar.ds_admin.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.storage.StorageReference;
 
 /**
@@ -20,20 +22,33 @@ public class Guru {
     private int age;
     private int followersCount;
     private String specialization, govDB, specDB;
+    @Exclude
     private StorageReference imgGov, imgSpec;
+    @Exclude
+    private DatabaseReference dbRef;
 
+    @Exclude
+    public DatabaseReference getDbRef() {
+        return dbRef;
+    }
+
+    @Exclude
+    public void setDbRef(DatabaseReference dbRef) {
+        this.dbRef = dbRef;
+    }
+    @Exclude
     public StorageReference getImgGov() {
         return imgGov;
     }
-
+    @Exclude
     public void setImgGov(StorageReference imgGov) {
         this.imgGov = imgGov;
     }
-
+    @Exclude
     public StorageReference getImgSpec() {
         return imgSpec;
     }
-
+    @Exclude
     public void setImgSpec(StorageReference imgSpec) {
         this.imgSpec = imgSpec;
     }
