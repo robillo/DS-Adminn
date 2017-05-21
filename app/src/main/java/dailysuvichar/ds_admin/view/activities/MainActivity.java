@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Guru guru = postSnapshot.getValue(Guru.class);
-                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
-                    guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+//                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
+//                    guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
                     Log.d(TAG, "onDataChange: "+guru.getUid());
                     gurus.add(guru);
 

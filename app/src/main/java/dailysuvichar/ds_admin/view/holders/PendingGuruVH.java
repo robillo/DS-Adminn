@@ -67,13 +67,17 @@ public class PendingGuruVH extends RecyclerView.ViewHolder {
     public void fullScreenIntent(int pos){
         Intent i = new Intent(context, FullScreenActivity.class);
         if(pos == 1){
-            i.putExtra("path", storageReference1.toString());
+            if(storageReference1!=null){
+                i.putExtra("path", storageReference1.toString());
+                Log.e("Storage Reference", storageReference1.toString());
+            }
         }
         else {
-            i.putExtra("path", storageReference2.toString());
+            if(storageReference2!=null){
+                i.putExtra("path", storageReference2.toString());
+                Log.e("Storage Reference", storageReference2.toString());
+            }
         }
-        Log.e("Storage Reference", storageReference1.toString());
-        Log.e("Storage Reference", storageReference2.toString());
         context.startActivity(i);
     }
 }
