@@ -1,9 +1,11 @@
 package dailysuvichar.ds_admin.view.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private StorageReference mStorageReferenceGovid, mStorageReferenceSpecid;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         gurus = new ArrayList<>();
 
         rv= (RecyclerView) findViewById(R.id.rv);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         mStorageReferenceGovid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("govid");
         mStorageReferenceSpecid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("specid");
 
@@ -95,6 +99,55 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshContent();
+            }
+        });
+    }
+
+    private void refreshContent(){
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.child("pending").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "onDataChange: ANDJBDAJKBDAKFKA");
+                        Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            Guru guru = postSnapshot.getValue(Guru.class);
+                            guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
+                            guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+                            guru.setDbRef(postSnapshot.getRef());
+                            Log.d(TAG, "onDataChange: "+guru.getUid());
+                            gurus.add(guru);
+
+                            rvPendingGurus.notifyDataSetChanged();
+                            rvPendingGurus = new RVPendingGurus(getApplicationContext(), gurus);
+                            rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            rv.setAdapter(rvPendingGurus);
+                            rvPendingGurus.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d(TAG, "onCancelled: " + databaseError.getMessage());
+                    }
+                });
+                Handler handler1 = new Handler();
+                handler1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
     }
 
     @Override
