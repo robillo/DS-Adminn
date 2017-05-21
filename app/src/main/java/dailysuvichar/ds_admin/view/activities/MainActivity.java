@@ -34,10 +34,11 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MA";
     RecyclerView rv;
-    RVPendingGurus rvPendingGurus;
-    ArrayList<Guru> gurus;
+    static RVPendingGurus rvPendingGurus;
+    static ArrayList<Guru> gurus;
 
     private DatabaseReference mDatabase;
+    private static DatabaseReference mDatabaseGuruOfficial;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private StorageReference mStorageReferenceGovid, mStorageReferenceSpecid;
@@ -55,9 +56,6 @@ public class MainActivity extends AppCompatActivity
         mStorageReferenceSpecid = FirebaseStorage.getInstance().getReference("gurus").child("pending").child("specid");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("gurus");
-//        mStorageReferenceGovid =
-//        mFirebaseAuth = FirebaseAuth.getInstance();
-//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         Log.d(TAG, "onCreate: "+mDatabase);
 
@@ -68,8 +66,9 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Guru guru = postSnapshot.getValue(Guru.class);
-//                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
-//                    guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
+                    guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+                    guru.setDbRef(postSnapshot.getRef());
                     Log.d(TAG, "onDataChange: "+guru.getUid());
                     gurus.add(guru);
 
@@ -129,6 +128,38 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static void deleteGuru(Guru guru, DatabaseReference dbRef){
+        if(dbRef!=null){
+            Log.i(TAG, "deleteSupplier: "+dbRef);
+            dbRef.setValue(null);
+            gurus.remove(guru);
+        }else{
+            Log.i(TAG, "deleteSupplier: dBRef is "+dbRef);
+        }
+        rvPendingGurus.notifyDataSetChanged();
+    }
+
+
+    public static void confirmAsGuru(Guru guru, DatabaseReference dbRef){
+
+        mDatabaseGuruOfficial = FirebaseDatabase.getInstance().getReference("gurus").child("official");
+
+        if(dbRef!=null){
+            Log.i(TAG, "deleteSupplier: "+dbRef);
+            dbRef.setValue(null);
+            gurus.remove(guru);
+
+            String guruId = mDatabaseGuruOfficial.push().getKey();
+
+            mDatabaseGuruOfficial.child(guruId).setValue(guru);
+
+        }else{
+            Log.i(TAG, "deleteSupplier: dBRef is "+dbRef);
+        }
+        rvPendingGurus.notifyDataSetChanged();
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
