@@ -22,6 +22,8 @@ public class FullScreenActivity extends AppCompatActivity {
         String path = getIntent().getStringExtra("path");
         StorageReference gsReference = storage.getReferenceFromUrl(path);
 
+
+
         Glide.with(getApplicationContext())
                 .using(new FirebaseImageLoader())
                 .load(gsReference)
