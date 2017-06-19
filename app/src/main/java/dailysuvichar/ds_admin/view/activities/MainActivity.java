@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "onDataChange: "+dataSnapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Guru guru = postSnapshot.getValue(Guru.class);
-                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid()));
+                    guru.setImgGov(mStorageReferenceGovid.child(guru.getUid())); //ERROR CHILD NAME Cant be empty
                     guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
                     guru.setDbRef(postSnapshot.getRef());
                     Log.d(TAG, "onDataChange: "+guru.getUid());
