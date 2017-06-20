@@ -12,6 +12,7 @@ import com.google.firebase.storage.StorageReference;
 import dailysuvichar.ds_admin.R;
 
 public class FullScreenActivity extends AppCompatActivity {
+    private StorageReference gsReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +21,15 @@ public class FullScreenActivity extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         String path = getIntent().getStringExtra("path");
-        StorageReference gsReference = storage.getReferenceFromUrl(path);
+        if(path!=null){
+            gsReference = storage.getReferenceFromUrl(path);
+        }
 
-
-
-        Glide.with(getApplicationContext())
-                .using(new FirebaseImageLoader())
-                .load(gsReference)
-                .into((ImageView) findViewById(R.id.imageView));
+        if(gsReference!=null){
+            Glide.with(getApplicationContext())
+                    .using(new FirebaseImageLoader())
+                    .load(gsReference)
+                    .into((ImageView) findViewById(R.id.imageView));
+        }
     }
 }
