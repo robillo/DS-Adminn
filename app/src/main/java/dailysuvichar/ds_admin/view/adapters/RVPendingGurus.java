@@ -44,7 +44,8 @@ public class RVPendingGurus extends RecyclerView.Adapter<PendingGuruVH> {
                         sAge = "AGE: "+String.valueOf(gurus.get(mPosition).getAge()),
                         sName = "NAME: "+gurus.get(mPosition).getName(),
                         sEmail = "EMAIL: "+gurus.get(mPosition).getEmail(),
-                        sUid = "UID: " +gurus.get(mPosition).getUid();
+                        sUid = "UID: " +gurus.get(mPosition).getUid(),
+                        id = "ID: " +gurus.get(mPosition).getId();
                 holder.dob.setText(sDob);
                 holder.age.setText(sAge);
                 holder.name.setText(sName);

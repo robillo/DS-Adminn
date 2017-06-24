@@ -6,7 +6,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +19,7 @@ import dailysuvichar.ds_admin.view.activities.FullScreenActivity;
 
 public class PendingGuruVH extends RecyclerView.ViewHolder {
 
-    public TextView name,email,uid,dob,age;
+    public TextView name,email,uid,dob,age,id;
     public CardView cardView;
     public ImageView imgGOV, imgSPEC;
     private Context context;
@@ -32,6 +31,7 @@ public class PendingGuruVH extends RecyclerView.ViewHolder {
         name = (TextView) itemView.findViewById(R.id.name);
         email = (TextView) itemView.findViewById(R.id.email);
         uid = (TextView) itemView.findViewById(R.id.uid);
+        id = (TextView) itemView.findViewById(R.id.id);
         dob = (TextView) itemView.findViewById(R.id.dob);
         age = (TextView) itemView.findViewById(R.id.age);
         cardView = (CardView) itemView.findViewById(R.id.cardView);

@@ -19,6 +19,16 @@ public class Guru {
     private String gender;
     private String phone;
     private String uid;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private int age;
     private int followersCount;
     private String specialization, govDB, specDB;

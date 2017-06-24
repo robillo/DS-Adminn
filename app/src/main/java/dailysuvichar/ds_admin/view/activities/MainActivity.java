@@ -73,13 +73,11 @@ public class MainActivity extends AppCompatActivity
                     if(guru.getUid()!=null){
                         guru.setImgGov(mStorageReferenceGovid.child(guru.getUid())); //ERROR CHILD NAME Cant be empty
                         guru.setImgSpec(mStorageReferenceSpecid.child(guru.getUid()));
+                        guru.setDbRef(postSnapshot.getRef());
+                        Log.d(TAG, "onDataChange: "+guru.getUid());
+                        gurus.add(guru);
                     }
-                    guru.setDbRef(postSnapshot.getRef());
-                    Log.d(TAG, "onDataChange: "+guru.getUid());
-                    gurus.add(guru);
-
                     rvPendingGurus.notifyDataSetChanged();
-
                 }
             }
 
@@ -188,11 +186,9 @@ public class MainActivity extends AppCompatActivity
 
     public static void deleteGuru(Guru guru, DatabaseReference dbRef){
         if(dbRef!=null){
-            Log.i(TAG, "deleteSupplier: "+dbRef);
             dbRef.setValue(null);
             gurus.remove(guru);
         }else{
-            Log.i(TAG, "deleteSupplier: dBRef is "+dbRef);
         }
         rvPendingGurus.notifyDataSetChanged();
     }
